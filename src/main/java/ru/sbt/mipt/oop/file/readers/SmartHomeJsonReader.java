@@ -12,7 +12,7 @@ public class SmartHomeJsonReader implements SmartHomeReader {
     }
 
     @Override
-    public SmartHome buildSmartHome(String fileName) {
+    public SmartHome read(String fileName) {
         String fileContent = fileReader.getFileContent(fileName);
         return gson.fromJson(fileContent, SmartHome.class);
     }

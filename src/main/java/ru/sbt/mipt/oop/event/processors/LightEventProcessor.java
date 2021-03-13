@@ -5,32 +5,30 @@ import ru.sbt.mipt.oop.commands.CommandSender;
 import ru.sbt.mipt.oop.commands.CommandType;
 import ru.sbt.mipt.oop.commands.SensorCommand;
 
-import java.util.HashMap;
-
 
 public class LightEventProcessor implements EventProcessor {
     private final SmartHome home;
     private final CommandSender sender;
-    private final HashMap<SensorEventType,Boolean> turnOnOff =
-            new HashMap<SensorEventType, Boolean>(){{
-                put(SensorEventType.LIGHT_OFF, false);
-                put(SensorEventType.LIGHT_ON, true);
-            }};
 
     public LightEventProcessor(SmartHome home, CommandSender sender) {
         this.home = home;
         this.sender = sender;
     }
 
-
     @Override
     public void processEvent(SensorEvent event) {
+        if(!isValidEvent(event.getType())) return;
+
         for (Room room : home.getRooms()) {
             Light light = room.getLight(event.getObjectId());
-            boolean isOn = turnOnOff.get(event.getType());
+            boolean isOn = event.getType() == SensorEventType.LIGHT_ON;
             if(light != null)
                 turnLightOnOff(light, room, isOn);
         }
+    }
+
+    private boolean isValidEvent(SensorEventType type) {
+        return type == SensorEventType.LIGHT_OFF || type == SensorEventType.LIGHT_ON;
     }
 
     private void turnLightOnOff(Light light, Room room, boolean isOn) {

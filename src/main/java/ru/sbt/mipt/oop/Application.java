@@ -1,6 +1,5 @@
 package ru.sbt.mipt.oop;
 
-import ru.sbt.mipt.oop.event.processors.EventProcessor;
 import ru.sbt.mipt.oop.event.processors.EventProcessorImpl;
 import ru.sbt.mipt.oop.file.readers.FileContentReaderImpl;
 import ru.sbt.mipt.oop.file.readers.SmartHomeJsonReader;
@@ -11,16 +10,12 @@ public class Application {
 
     public static void main(String... args) {
         SmartHomeReader smartHomeReader = new SmartHomeJsonReader(new FileContentReaderImpl());
-        SmartHome smartHome = smartHomeReader.buildSmartHome("smart-home-1.js");
+        SmartHome smartHome = smartHomeReader.read("smart-home-1.js");
 
-        EventProcessor processor = new EventProcessorImpl(smartHome);
-        EventCreator creator = new EventCreatorImpl();
-
-        SensorEvent event = creator.getNextEvent();
-        while (event != null) {
-            processor.processEvent(event);
-            event = creator.getNextEvent();
-        }
+        EventCreatorConsumer consumer = new EventCreatorConsumer(
+                new EventProcessorImpl(smartHome), new EventCreatorImpl()
+        );
+        consumer.processEvents();
     }
 
 }

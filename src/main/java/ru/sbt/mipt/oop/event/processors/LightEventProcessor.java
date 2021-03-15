@@ -8,11 +8,9 @@ import ru.sbt.mipt.oop.commands.SensorCommand;
 
 public class LightEventProcessor implements EventProcessor {
     private final SmartHome home;
-    private final CommandSender sender;
 
-    public LightEventProcessor(SmartHome home, CommandSender sender) {
+    public LightEventProcessor(SmartHome home) {
         this.home = home;
-        this.sender = sender;
     }
 
     @Override
@@ -42,17 +40,4 @@ public class LightEventProcessor implements EventProcessor {
         System.out.println(message);
     }
 
-    public void turnOffAllLights() {
-        for(Room room : home.getRooms()) {
-            turnOffAllLightsInRoom(room);
-        }
-    }
-
-    public void turnOffAllLightsInRoom(Room room) {
-        for(Light light : room.getLights()) {
-            light.setOn(false);
-            SensorCommand command = new SensorCommand(CommandType.LIGHT_OFF, light.getId());
-            sender.sendCommand(command);
-        }
-    }
 }

@@ -4,11 +4,11 @@ import ru.sbt.mipt.oop.SensorEvent;
 
 import java.util.List;
 
-public class EventProcessorImpl implements EventProcessor {
+public class CompositeHandler implements EventProcessor {
     private final List<EventProcessor> eventProcessors;
 
 
-    public EventProcessorImpl(List<EventProcessor> processors) {
+    public CompositeHandler(List<EventProcessor> processors) {
         this.eventProcessors = processors;
     }
 

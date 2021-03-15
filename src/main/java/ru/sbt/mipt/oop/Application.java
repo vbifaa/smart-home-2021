@@ -1,7 +1,7 @@
 package ru.sbt.mipt.oop;
 
 import ru.sbt.mipt.oop.event.processors.DoorEventProcessor;
-import ru.sbt.mipt.oop.event.processors.EventProcessorImpl;
+import ru.sbt.mipt.oop.event.processors.CompositeHandler;
 import ru.sbt.mipt.oop.event.processors.HallDoorEventProcessor;
 import ru.sbt.mipt.oop.event.processors.LightEventProcessor;
 import ru.sbt.mipt.oop.file.readers.FileContentReaderImpl;
@@ -19,7 +19,7 @@ public class Application {
 
 
         EventCreatorConsumer consumer = new EventCreatorConsumer(
-                new EventProcessorImpl(
+                new CompositeHandler(
                         Arrays.asList(
                                 new LightEventProcessor(smartHome),
                                 new DoorEventProcessor(smartHome),

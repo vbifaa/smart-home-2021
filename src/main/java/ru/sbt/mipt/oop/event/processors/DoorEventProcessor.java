@@ -1,10 +1,6 @@
 package ru.sbt.mipt.oop.event.processors;
 
 import ru.sbt.mipt.oop.*;
-import ru.sbt.mipt.oop.commands.CommandSender;
-import ru.sbt.mipt.oop.commands.CommandSenderImpl;
-
-import static ru.sbt.mipt.oop.event.processors.LightUtils.turnOffAllLights;
 
 
 public class DoorEventProcessor implements EventProcessor {
@@ -33,21 +29,11 @@ public class DoorEventProcessor implements EventProcessor {
     private void closeOrOpenDoor(Door door, Room room, boolean isOpen) {
         door.setOpen(isOpen);
         printMessageCloseOrOpenDoor(door, room, isOpen);
-        processForDoorInHall(isOpen, room);
     }
 
     private void printMessageCloseOrOpenDoor(Door door, Room room, boolean isOpen) {
         String message = "Door " + door.getId() + " in room " + room.getName() + " was ";
         message += isOpen ? "opened." : "off.";
         System.out.println(message);
-    }
-
-    private void processForDoorInHall(boolean isOpen, Room room) {
-        if(isOpen || !room.getName().equals("hall")) return;
-
-        CommandSender sender = new CommandSenderImpl();
-        for(Room roomHome : home.getRooms()) {
-            turnOffAllLights(roomHome, sender);
-        }
     }
 }

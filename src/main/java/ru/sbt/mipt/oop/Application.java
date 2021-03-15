@@ -2,6 +2,7 @@ package ru.sbt.mipt.oop;
 
 import ru.sbt.mipt.oop.event.processors.DoorEventProcessor;
 import ru.sbt.mipt.oop.event.processors.EventProcessorImpl;
+import ru.sbt.mipt.oop.event.processors.HallDoorEventProcessor;
 import ru.sbt.mipt.oop.event.processors.LightEventProcessor;
 import ru.sbt.mipt.oop.file.readers.FileContentReaderImpl;
 import ru.sbt.mipt.oop.file.readers.SmartHomeJsonReader;
@@ -19,7 +20,11 @@ public class Application {
 
         EventCreatorConsumer consumer = new EventCreatorConsumer(
                 new EventProcessorImpl(
-                        Arrays.asList(new LightEventProcessor(smartHome), new DoorEventProcessor(smartHome))
+                        Arrays.asList(
+                                new LightEventProcessor(smartHome),
+                                new DoorEventProcessor(smartHome),
+                                new HallDoorEventProcessor(smartHome)
+                        )
                 ),
                 new EventCreatorImpl()
         );

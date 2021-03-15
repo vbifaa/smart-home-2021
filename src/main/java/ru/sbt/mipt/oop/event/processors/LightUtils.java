@@ -7,7 +7,7 @@ import ru.sbt.mipt.oop.commands.CommandType;
 import ru.sbt.mipt.oop.commands.SensorCommand;
 
 public class LightUtils {
-    public static void turnOffAllLights(Room room, CommandSender sender) {
+    public static void turnOffAllLightsInRoom(Room room, CommandSender sender) {
         for(Light light : room.getLights()) {
             light.setOn(false);
             SensorCommand command = new SensorCommand(CommandType.LIGHT_OFF, light.getId());

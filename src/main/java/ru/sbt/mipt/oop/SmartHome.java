@@ -21,4 +21,5 @@ public class SmartHome {
     public Collection<Room> getRooms() {
         return rooms;
     }
+
 }

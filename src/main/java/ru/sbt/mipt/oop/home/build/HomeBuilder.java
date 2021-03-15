@@ -1,7 +1,9 @@
-package ru.sbt.mipt.oop;
+package ru.sbt.mipt.oop.home.build;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import ru.sbt.mipt.oop.Room;
+import ru.sbt.mipt.oop.SmartHome;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -10,7 +12,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 public class HomeBuilder {
 

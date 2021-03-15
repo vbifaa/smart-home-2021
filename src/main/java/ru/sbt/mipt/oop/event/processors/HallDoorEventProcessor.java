@@ -20,18 +20,12 @@ public class HallDoorEventProcessor implements EventProcessor {
     @Override
     public void processEvent(SensorEvent event) {
         if(!isValidEvent(event.getType())) return;
+        if(!home.isRoomHasDoor("hall", event.getObjectId())) return;
 
-        for (Room room : home.getRooms()) {
-            Door door = room.getDoor(event.getObjectId());
-            if(door != null && room.getName().equals("hall"))
-                turnOffAllLights();
-        }
-    }
-
-    private void turnOffAllLights() {
-        CommandSender sender = new CommandSenderImpl();
-        for(Room roomHome : home.getRooms()) {
-            turnOffAllLightsInRoom(roomHome, sender);
-        }
+        Action turnOff = (obj)->{
+            if(obj instanceof Light)
+                ((Light) obj).setOn(false);
+        };
+        home.execute(turnOff);
     }
 }

@@ -2,7 +2,7 @@ package ru.sbt.mipt.oop;
 
 import java.util.Collection;
 
-public class Room {
+public class Room implements Actionable {
     private final Collection<Light> lights;
     private final Collection<Door> doors;
     private final String name;
@@ -37,5 +37,14 @@ public class Room {
             if (light.getId().equals(lightId))
                 return light;
         return null;
+    }
+
+    @Override
+    public void execute(Action action) {
+        for(Light light : lights)
+            light.execute(action);
+
+        for (Door door : doors)
+            door.execute(action);
     }
 }

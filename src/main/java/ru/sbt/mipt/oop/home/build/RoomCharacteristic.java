@@ -1,4 +1,4 @@
-package ru.sbt.mipt.oop;
+package ru.sbt.mipt.oop.home.build;
 
 public class RoomCharacteristic {
     public final int lightsCount;

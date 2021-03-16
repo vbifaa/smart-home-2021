@@ -14,26 +14,16 @@ public class DoorEventProcessor implements EventProcessor {
     public void processEvent(SensorEvent event) {
         if(!isValidEvent(event.getType())) return;
 
-        for (Room room : home.getRooms()) {
-            Door door = room.getDoor(event.getObjectId());
-            boolean isOpen = event.getType() == SensorEventType.DOOR_OPEN;
-            if(door != null)
-                closeOrOpenDoor(door, room, isOpen);
-        }
+        boolean isOpen = event.getType() == SensorEventType.DOOR_OPEN;
+        String id = event.getObjectId();
+        Action openClose = (obj)->{
+            if(obj instanceof Door && ((Door) obj).getId().equals(id))
+                ((Door) obj).setOpen(isOpen);
+        };
+        home.execute(openClose);
     }
 
     private boolean isValidEvent(SensorEventType type) {
         return type == SensorEventType.DOOR_CLOSED || type == SensorEventType.DOOR_OPEN;
-    }
-
-    private void closeOrOpenDoor(Door door, Room room, boolean isOpen) {
-        door.setOpen(isOpen);
-        printMessageCloseOrOpenDoor(door, room, isOpen);
-    }
-
-    private void printMessageCloseOrOpenDoor(Door door, Room room, boolean isOpen) {
-        String message = "Door " + door.getId() + " in room " + room.getName() + " was ";
-        message += isOpen ? "opened." : "off.";
-        System.out.println(message);
     }
 }

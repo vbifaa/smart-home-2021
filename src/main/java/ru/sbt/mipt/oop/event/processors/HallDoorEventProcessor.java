@@ -1,10 +1,8 @@
 package ru.sbt.mipt.oop.event.processors;
 
 import ru.sbt.mipt.oop.*;
-import ru.sbt.mipt.oop.commands.CommandSender;
-import ru.sbt.mipt.oop.commands.CommandSenderImpl;
 
-import static ru.sbt.mipt.oop.event.processors.LightUtils.turnOffAllLightsInRoom;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class HallDoorEventProcessor implements EventProcessor {
     private final SmartHome home;
@@ -20,12 +18,22 @@ public class HallDoorEventProcessor implements EventProcessor {
     @Override
     public void processEvent(SensorEvent event) {
         if(!isValidEvent(event.getType())) return;
-        if(!home.isRoomHasDoor("hall", event.getObjectId())) return;
+
+        String id = event.getObjectId();
 
         Action turnOff = (obj)->{
             if(obj instanceof Light)
                 ((Light) obj).setOn(false);
         };
-        home.execute(turnOff);
+
+        Action findDoorAndTurnOff = (obj)->{
+            if(obj instanceof Room && ((Room) obj).getName().equals("hall")) {
+                Door door = ((Room) obj).getDoor(id);
+                if(door != null)
+                    home.execute(turnOff);
+            }
+
+        };
+        home.execute(findDoorAndTurnOff);
     }
 }

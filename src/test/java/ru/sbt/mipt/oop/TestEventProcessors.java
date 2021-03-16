@@ -83,7 +83,7 @@ public class TestEventProcessors {
         void testCloseHallDoor() {
             processor.processEvent(new SensorEvent(SensorEventType.DOOR_CLOSED, "4"));
 
-            for(Room room : home.getRooms())
+            for(Room room : home.rooms)
                 for(Light lights : room.getLights())
                     Assertions.assertFalse(lights.isOn());
         }

@@ -10,20 +10,23 @@ public class DoorEventProcessor implements EventProcessor {
         this.home = home;
     }
 
+    private boolean isValidEvent(SensorEventType type) {
+        return type == SensorEventType.DOOR_CLOSED || type == SensorEventType.DOOR_OPEN;
+    }
+
     @Override
     public void processEvent(SensorEvent event) {
         if(!isValidEvent(event.getType())) return;
 
         boolean isOpen = event.getType() == SensorEventType.DOOR_OPEN;
         String id = event.getObjectId();
-        Action openClose = (obj)->{
-            if(obj instanceof Door && ((Door) obj).getId().equals(id))
-                ((Door) obj).setOpen(isOpen);
-        };
-        home.execute(openClose);
+        home.execute(openClose(id, isOpen));
     }
 
-    private boolean isValidEvent(SensorEventType type) {
-        return type == SensorEventType.DOOR_CLOSED || type == SensorEventType.DOOR_OPEN;
+    private Action openClose(String doorId, boolean isOpen) {
+        return (obj)->{
+            if(obj instanceof Door && ((Door) obj).getId().equals(doorId))
+                ((Door) obj).setOpen(isOpen);
+        };
     }
 }

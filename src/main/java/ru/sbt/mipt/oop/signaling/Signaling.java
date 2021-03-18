@@ -17,10 +17,6 @@ public class Signaling {
         state.deactivate(code);
     }
 
-    public boolean isAlarm() {
-        return state instanceof AlarmState;
-    }
-
     protected String getCode() {
         return code;
     }
@@ -29,7 +25,7 @@ public class Signaling {
         this.code = code;
     }
 
-    protected void setState(State state) {
+    public void setState(State state) {
         this.state = state;
     }
 

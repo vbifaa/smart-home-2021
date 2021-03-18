@@ -2,7 +2,7 @@ package ru.sbt.mipt.oop.signaling;
 
 public class AlarmState extends State {
 
-    protected AlarmState(Signaling signaling) {
+    public AlarmState(Signaling signaling) {
         super(signaling);
     }
 

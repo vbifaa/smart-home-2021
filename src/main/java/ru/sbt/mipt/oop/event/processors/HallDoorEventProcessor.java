@@ -1,6 +1,9 @@
 package ru.sbt.mipt.oop.event.processors;
 
 import ru.sbt.mipt.oop.*;
+import ru.sbt.mipt.oop.events.Event;
+import ru.sbt.mipt.oop.events.SensorEvent;
+import ru.sbt.mipt.oop.events.SensorEventType;
 
 
 public class HallDoorEventProcessor implements EventProcessor {
@@ -15,10 +18,10 @@ public class HallDoorEventProcessor implements EventProcessor {
     }
 
     @Override
-    public void processEvent(SensorEvent event) {
-        if(!isValidEvent(event.getType())) return;
+    public void processEvent(Event event) {
+        if(!isValidEvent((SensorEventType) event.getType())) return;
 
-        home.execute(checkDoorInHallAndTurnOff(event.getObjectId()));
+        home.execute(checkDoorInHallAndTurnOff(((SensorEvent) event).getObjectId()));
     }
 
     private Action checkDoorInHallAndTurnOff(String doorId) {

@@ -1,5 +1,8 @@
 package ru.sbt.mipt.oop;
 
+import ru.sbt.mipt.oop.events.SensorEvent;
+import ru.sbt.mipt.oop.events.SensorEventType;
+
 public class EventCreatorImpl implements  EventCreator {
 
     @Override

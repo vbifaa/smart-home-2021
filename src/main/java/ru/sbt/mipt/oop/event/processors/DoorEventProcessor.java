@@ -1,6 +1,9 @@
 package ru.sbt.mipt.oop.event.processors;
 
 import ru.sbt.mipt.oop.*;
+import ru.sbt.mipt.oop.events.Event;
+import ru.sbt.mipt.oop.events.SensorEvent;
+import ru.sbt.mipt.oop.events.SensorEventType;
 
 
 public class DoorEventProcessor implements EventProcessor {
@@ -15,11 +18,11 @@ public class DoorEventProcessor implements EventProcessor {
     }
 
     @Override
-    public void processEvent(SensorEvent event) {
-        if(!isValidEvent(event.getType())) return;
+    public void processEvent(Event event) {
+        if(!isValidEvent((SensorEventType) event.getType())) return;
 
         boolean isOpen = event.getType() == SensorEventType.DOOR_OPEN;
-        String id = event.getObjectId();
+        String id = ((SensorEvent) event).getObjectId();
         home.execute(openClose(id, isOpen));
     }
 

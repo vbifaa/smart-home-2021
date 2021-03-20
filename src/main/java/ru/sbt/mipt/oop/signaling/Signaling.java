@@ -17,6 +17,14 @@ public class Signaling {
         state.deactivate(code);
     }
 
+    public State getState() {
+        return state;
+    }
+
+    public void setAlarm() {
+        state = new AlarmState(this);
+    }
+
     protected String getCode() {
         return code;
     }
@@ -25,11 +33,7 @@ public class Signaling {
         this.code = code;
     }
 
-    public void setState(State state) {
+    protected void setState(State state) {
         this.state = state;
-    }
-
-    public State getState() {
-        return state;
     }
 }

@@ -31,7 +31,7 @@ public class SignalingDecorator extends EventProcessorDecorator {
         if(event instanceof SignalingEvent) {
             processor.processEvent(event);
         } else {
-            signaling.setState(new AlarmState(signaling));
+            signaling.setAlarm();
             System.out.print(message);
         }
     }

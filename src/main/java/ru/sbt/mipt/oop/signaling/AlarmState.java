@@ -1,14 +1,18 @@
 package ru.sbt.mipt.oop.signaling;
 
-public class AlarmState extends State {
+public class AlarmState implements State {
+    protected final Signaling signaling;
 
     protected AlarmState(Signaling signaling) {
-        super(signaling);
+        this.signaling = signaling;
     }
 
     @Override
-    protected void activate(String code) {}
+    public void activate(String code) {}
 
     @Override
-    protected void deactivate(String code) {}
+    public void deactivate(String code) {}
+
+    @Override
+    public void alarm() {}
 }

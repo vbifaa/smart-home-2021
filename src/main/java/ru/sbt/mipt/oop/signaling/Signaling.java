@@ -17,12 +17,20 @@ public class Signaling {
         state.deactivate(code);
     }
 
-    public State getState() {
-        return state;
+    public void alarm() {
+        state.alarm();
     }
 
-    public void setAlarm() {
-        state = new AlarmState(this);
+    public boolean isActivate() {
+        return state instanceof ActivateState;
+    }
+
+    public boolean isDeactivate() {
+        return state instanceof DeactivateState;
+    }
+
+    public boolean isAlarm() {
+        return state instanceof AlarmState;
     }
 
     protected String getCode() {

@@ -28,7 +28,7 @@ public class Application {
         );
         EventCreatorConsumer consumer = new EventCreatorConsumer(
                 new SignalingDecorator(
-                        handler, signaling
+                        handler, signaling, new SmsSenderImpl()
                 ),
                 new EventCreatorImpl()
         );

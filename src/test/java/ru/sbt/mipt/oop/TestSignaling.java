@@ -19,13 +19,13 @@ public class TestSignaling {
 
     @Test
     void testSignalingHasDeactivateState() {
-        Assertions.assertTrue(signaling.getState() instanceof DeactivateState);
+        Assertions.assertTrue(signaling.isDeactivate());
     }
 
     @Test
     void testActivate() {
         signaling.activate(defaultPassword);
-        Assertions.assertTrue(signaling.getState() instanceof ActivateState);
+        Assertions.assertTrue(signaling.isActivate());
     }
 
     @Test
@@ -33,7 +33,7 @@ public class TestSignaling {
         signaling.activate(defaultPassword);
         signaling.deactivate(defaultPassword);
 
-        Assertions.assertTrue(signaling.getState() instanceof DeactivateState);
+        Assertions.assertTrue(signaling.isDeactivate());
     }
 
     @Test
@@ -44,7 +44,7 @@ public class TestSignaling {
         signaling.activate(defaultPassword);
         signaling.deactivate(wrongPassword);
 
-        Assertions.assertTrue(signaling.getState() instanceof AlarmState);
+        Assertions.assertTrue(signaling.isAlarm());
     }
 
     @Test
@@ -56,6 +56,6 @@ public class TestSignaling {
         signaling.activate(newPassword);
         signaling.deactivate(newPassword);
 
-        Assertions.assertTrue(signaling.getState() instanceof AlarmState);
+        Assertions.assertTrue(signaling.isAlarm());
     }
 }

@@ -9,7 +9,6 @@ import ru.sbt.mipt.oop.events.SensorEvent;
 import ru.sbt.mipt.oop.events.SensorEventType;
 import ru.sbt.mipt.oop.events.SignalingEvent;
 import ru.sbt.mipt.oop.events.SignalingEventType;
-import ru.sbt.mipt.oop.signaling.ActivateState;
 import ru.sbt.mipt.oop.signaling.Signaling;
 
 import java.util.Arrays;
@@ -37,7 +36,7 @@ public class TestSignalingDecorator {
                         new SignalingEventProcessor(signaling)
                 )
         );
-        decorator = new SignalingDecorator(handler, signaling);
+        decorator = new SignalingDecorator(handler, signaling, new SmsSenderImpl());
     }
 
     void assertOpenDoorTurnOffLight() {
@@ -64,7 +63,7 @@ public class TestSignalingDecorator {
     @Test
     void testActivateSignaling() {
         decorator.processEvent(new SignalingEvent(SignalingEventType.ALARM_ACTIVATE, defaultCode));
-        Assertions.assertTrue(signaling.getState() instanceof ActivateState);
+        Assertions.assertTrue(signaling.isActivate());
 
         OpenDoorTurnOffLight();
         assertCloseDoorTurnOnLight();

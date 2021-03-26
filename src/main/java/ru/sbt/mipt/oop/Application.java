@@ -1,5 +1,7 @@
 package ru.sbt.mipt.oop;
 
+import com.coolcompany.smarthome.events.SensorEventsManager;
+import ru.sbt.mipt.oop.adapters.EventHandlerAdapter;
 import ru.sbt.mipt.oop.decorators.SignalingDecorator;
 import ru.sbt.mipt.oop.event.processors.*;
 import ru.sbt.mipt.oop.file.readers.FileContentReaderImpl;
@@ -26,13 +28,14 @@ public class Application {
                         new SignalingEventProcessor(signaling)
                 )
         );
-        EventCreatorConsumer consumer = new EventCreatorConsumer(
+        SensorEventsManager manager = new SensorEventsManager();
+        EventHandlerAdapter adapter = new EventHandlerAdapter(
                 new SignalingDecorator(
-                        handler, signaling, new SmsSenderImpl()
-                ),
-                new EventCreatorImpl()
+                    handler, signaling, new SmsSenderImpl()
+                )
         );
-        consumer.processEvents();
+        manager.registerEventHandler(adapter);
+        manager.start();
     }
 
 }

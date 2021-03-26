@@ -1,8 +1,11 @@
 package ru.sbt.mipt.oop.event.processors;
 
 import ru.sbt.mipt.oop.*;
+import ru.sbt.mipt.oop.events.Event;
+import ru.sbt.mipt.oop.events.EventType;
+import ru.sbt.mipt.oop.events.SensorEvent;
+import ru.sbt.mipt.oop.events.SensorEventType;
 
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class HallDoorEventProcessor implements EventProcessor {
     private final SmartHome home;
@@ -11,29 +14,35 @@ public class HallDoorEventProcessor implements EventProcessor {
         this.home = home;
     }
 
-    private boolean isValidEvent(SensorEventType type) {
+    private boolean isValidEvent(EventType type) {
         return type == SensorEventType.DOOR_CLOSED;
     }
 
     @Override
-    public void processEvent(SensorEvent event) {
+    public void processEvent(Event event) {
         if(!isValidEvent(event.getType())) return;
 
-        String id = event.getObjectId();
+        home.execute(checkDoorInHallAndTurnOff(((SensorEvent) event).getObjectId()));
+    }
 
-        Action turnOff = (obj)->{
+    private Action checkDoorInHallAndTurnOff(String doorId) {
+        return (obj)->{
+            if(obj instanceof Room && ((Room) obj).getName().equals("hall"))
+                ((Room) obj).execute(findDoorAndTurnOff(doorId));
+        };
+    }
+
+    private Action findDoorAndTurnOff(String doorId) {
+        return (obj)->{
+            if(obj instanceof Door && ((Door) obj).getId().equals(doorId))
+                home.execute(turnOff());
+        };
+    }
+
+    private Action turnOff() {
+        return (obj)->{
             if(obj instanceof Light)
                 ((Light) obj).setOn(false);
         };
-
-        Action findDoorAndTurnOff = (obj)->{
-            if(obj instanceof Room && ((Room) obj).getName().equals("hall")) {
-                Door door = ((Room) obj).getDoor(id);
-                if(door != null)
-                    home.execute(turnOff);
-            }
-
-        };
-        home.execute(findDoorAndTurnOff);
     }
 }

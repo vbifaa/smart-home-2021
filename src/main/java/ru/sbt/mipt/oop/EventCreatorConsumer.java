@@ -1,6 +1,7 @@
 package ru.sbt.mipt.oop;
 
 import ru.sbt.mipt.oop.event.processors.EventProcessor;
+import ru.sbt.mipt.oop.events.SensorEvent;
 
 public class EventCreatorConsumer {
     private final EventProcessor processor;

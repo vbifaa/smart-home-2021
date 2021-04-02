@@ -9,6 +9,7 @@ import ru.sbt.mipt.oop.SmsSenderImpl;
 import ru.sbt.mipt.oop.adapters.EventHandlerAdapter;
 import ru.sbt.mipt.oop.decorators.SignalingDecorator;
 import ru.sbt.mipt.oop.event.processors.*;
+import ru.sbt.mipt.oop.events.SensorEventType;
 import ru.sbt.mipt.oop.file.readers.FileContentReader;
 import ru.sbt.mipt.oop.file.readers.FileContentReaderImpl;
 import ru.sbt.mipt.oop.file.readers.SmartHomeJsonReader;
@@ -16,6 +17,8 @@ import ru.sbt.mipt.oop.file.readers.SmartHomeReader;
 import ru.sbt.mipt.oop.signaling.Signaling;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 public class DefaultConfiguration {
@@ -29,7 +32,22 @@ public class DefaultConfiguration {
 
     @Bean
     EventHandlerAdapter adapter() {
-        return new EventHandlerAdapter(eventProcessorDecorator());
+        return new EventHandlerAdapter(
+                eventProcessorDecorator(),
+                convertCCSensorEventType()
+        );
+    }
+
+    @Bean
+    Map<String, SensorEventType> convertCCSensorEventType() {
+        return  new HashMap<String, SensorEventType>() {{
+            put("LightIsOn", SensorEventType.LIGHT_ON);
+            put("LightIsOff", SensorEventType.LIGHT_OFF);
+            put("DoorIsOpen", SensorEventType.DOOR_OPEN);
+            put("DoorIsClosed", SensorEventType.DOOR_CLOSED);
+            put("DoorIsLocked", SensorEventType.DOOR_CLOSED);
+            put("DoorIsUnlocked", SensorEventType.DOOR_OPEN);
+        }};
     }
 
     @Bean

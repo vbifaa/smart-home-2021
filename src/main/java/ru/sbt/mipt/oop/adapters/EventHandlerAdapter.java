@@ -6,27 +6,20 @@ import ru.sbt.mipt.oop.event.processors.EventProcessor;
 import ru.sbt.mipt.oop.events.SensorEvent;
 import ru.sbt.mipt.oop.events.SensorEventType;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public class EventHandlerAdapter implements EventHandler  {
     private final EventProcessor processor;
+    private final Map<String, SensorEventType> convertCCSensorEventType;
 
-    private final HashMap<String, SensorEventType> convertCCSensorEventType =
-            new HashMap<String, SensorEventType>() {{
-                put("LightIsOn", SensorEventType.LIGHT_ON);
-                put("LightIsOff", SensorEventType.LIGHT_OFF);
-                put("DoorIsOpen", SensorEventType.DOOR_OPEN);
-                put("DoorIsClosed", SensorEventType.DOOR_CLOSED);
-                put("DoorIsLocked", SensorEventType.DOOR_CLOSED);
-                put("DoorIsUnlocked", SensorEventType.DOOR_OPEN);
-            }};
-
-    public EventHandlerAdapter(EventProcessor processor) {
+    public EventHandlerAdapter(EventProcessor processor, Map<String, SensorEventType> convertCCSensorEventType) {
         this.processor = processor;
+        this.convertCCSensorEventType = convertCCSensorEventType;
     }
 
     @Override
     public void handleEvent(CCSensorEvent event) {
+        if(event == null) return;
         processor.processEvent(convert(event));
     }
 

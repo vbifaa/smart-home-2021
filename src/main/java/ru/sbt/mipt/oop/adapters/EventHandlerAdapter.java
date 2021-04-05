@@ -24,7 +24,11 @@ public class EventHandlerAdapter implements EventHandler  {
     }
 
     private SensorEvent convert(CCSensorEvent event) {
-        SensorEventType type = convertCCSensorEventType.get(event.getEventType());
+        String cCEventType = event.getEventType();
+        SensorEventType type = null;
+        if(cCEventType != null)
+            type = convertCCSensorEventType.get(cCEventType);
+
         String objectId = event.getObjectId();
         return new SensorEvent(type, objectId);
     }

@@ -13,7 +13,7 @@ public class TurnOnLightInHall extends Command {
 
     @Override
     Event getEvent() {
-        return new SensorEvent(SensorEventType.LIGHT_ON, "hall");
+        return new SensorEvent(SensorEventType.ROOM_LIGHT_ON, "hall");
     }
 
 }

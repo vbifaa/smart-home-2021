@@ -67,6 +67,7 @@ public class DefaultConfiguration {
                         doorEventProcessor(),
                         lightEventProcessor(),
                         hallDoorEventProcessor(),
+                        roomLightEventProcessor(),
                         signalingEventProcessor()
                 )
         );
@@ -85,6 +86,11 @@ public class DefaultConfiguration {
     @Bean
     EventProcessor hallDoorEventProcessor() {
         return new HallDoorEventProcessor(smartHome());
+    }
+
+    @Bean
+    EventProcessor roomLightEventProcessor() {
+        return new RoomLightEventProcessor(smartHome());
     }
 
     @Bean

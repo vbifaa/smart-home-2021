@@ -12,9 +12,11 @@ import ru.sbt.mipt.oop.signaling.Signaling;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TestRemoteControl {
-    private final RemoteControl controller = new DefaultRemoteController();
+    private RemoteControl controller;
     private EventProcessor processor;
     private final SmartHome home = new SmartHome();
     private final String hallDoorId = "1";
@@ -40,7 +42,7 @@ public class TestRemoteControl {
     void init() {
         initHome();
         initEventProcessor();
-        initCommands();
+        initController();
     }
 
     void initHome() {
@@ -75,24 +77,17 @@ public class TestRemoteControl {
         );
     }
 
-    void initCommands() {
-        Command command = new TurnOffAllLight(processor);
-        ((DefaultRemoteController) controller).registerButton(turnOffAllLights, command);
+    void initController() {
+        Map<String, Command> commands = new HashMap<String, Command>(){{
+            put(turnOffAllLights, new TurnOffAllLight(processor));
+            put(closeHallDoor, new CloseHallDoor(processor, hallDoorId));
+            put(turnOnLightInHall, new TurnOnLightInHall(processor));
+            put(activateSignaling, new ActivateSignaling(processor, "clock"));
+            put(setAlarmSignaling, new SetAlarmSignaling(processor));
+            put(turnOnAllLights, new TurnOnAllLight(processor));
+        }};
 
-        command = new CloseHallDoor(processor, hallDoorId);
-        ((DefaultRemoteController) controller).registerButton(closeHallDoor, command);
-
-        command = new TurnOnLightInHall(processor);
-        ((DefaultRemoteController) controller).registerButton(turnOnLightInHall, command);
-
-        command = new ActivateSignaling(processor, "clock");
-        ((DefaultRemoteController) controller).registerButton(activateSignaling, command);
-
-        command = new SetAlarmSignaling(processor);
-        ((DefaultRemoteController) controller).registerButton(setAlarmSignaling, command);
-
-        command = new TurnOnAllLight(processor);
-        ((DefaultRemoteController) controller).registerButton(turnOnAllLights, command);
+        controller = new DefaultRemoteController(commands);
     }
 
     void assertAllLights(boolean isOn) {

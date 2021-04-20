@@ -24,12 +24,22 @@ public class LightEventProcessor implements EventProcessor {
 
         boolean isOn = event.getType() == SensorEventType.LIGHT_ON;
         String id = ((SensorEvent) event).getObjectId();
-        home.execute(turnOnOff(id, isOn));
+        if(id == null)
+            home.execute(turnOnOffAll(isOn));
+        else
+            home.execute(turnOnOff(id, isOn));
     }
 
     private Action turnOnOff(String lightId, boolean isOn) {
         return (obj)->{
             if(obj instanceof Light && ((Light) obj).getId().equals(lightId))
+                ((Light) obj).setOn(isOn);
+        };
+    }
+
+    private Action turnOnOffAll(boolean isOn) {
+        return (obj)->{
+            if(obj instanceof Light)
                 ((Light) obj).setOn(isOn);
         };
     }

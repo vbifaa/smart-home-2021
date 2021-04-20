@@ -24,7 +24,9 @@ public class SignalingEventProcessor implements EventProcessor {
         String code = ((SignalingEvent) event).getCode();
         if(event.getType() == SignalingEventType.ALARM_ACTIVATE)
             signaling.activate(code);
-        else
+        else if(event.getType() == SignalingEventType.ALARM_DEACTIVATE)
             signaling.deactivate(code);
+        else
+            signaling.alarm();
     }
 }

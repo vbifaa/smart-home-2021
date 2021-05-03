@@ -17,7 +17,7 @@ public class RoomLightEventProcessor implements EventProcessor {
     }
 
     private boolean isValidEvent(EventType type) {
-        return type == SensorEventType.ROOM_LIGHT_ON;
+        return type == SensorEventType.ROOM_LIGHT_ON || type == SensorEventType.ROOM_LIGHT_OFF;
     }
 
     @Override

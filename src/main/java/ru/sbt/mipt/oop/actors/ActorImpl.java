@@ -19,9 +19,13 @@ public class ActorImpl implements Actor {
 
     @Override
     public void run() {
-        if(Math.random() > 0.5) controller.onButtonPressed(generateButton(), "");
-        controller.runCommands();
+        while (Math.random() > 0.5) {
+            controller.onButtonPressed(generateButton(), "");
+            controller.runCommands();
+        }
     }
+
+
 
     @Override
     public String generateButton() {

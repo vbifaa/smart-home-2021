@@ -8,12 +8,15 @@ import java.util.*;
 public class ActorRemoteController implements RemoteControl {
 
     private final Map<String, Command> buttonCommands;
-    private final List<ActorRemoteController> actors;
+    private final List<ActorRemoteController> actors = new ArrayList<>();
     private final Queue<Command> commands = new LinkedList<>();
 
-    public ActorRemoteController(Map<String, Command> buttonCommands, List<ActorRemoteController> actors) {
+    public ActorRemoteController(Map<String, Command> buttonCommands) {
         this.buttonCommands = buttonCommands;
-        this.actors = actors;
+    }
+
+    public void addActor(ActorRemoteController actor) {
+        actors.add(actor);
     }
 
     @Override
